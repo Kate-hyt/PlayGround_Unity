@@ -97,6 +97,7 @@ public class TettrisMino : MonoBehaviour
             new List<int[]>(){new int[2]{0, 2}, new int[2]{1, 3}, new int[2]{1, 2}, new int[2]{1, 1}},
         }
     };
+
     private TettrisMinoType type = TettrisMino.TettrisMinoType.I;
     public TettrisMinoType Type{
         get{
@@ -469,6 +470,50 @@ public class TettrisMino : MonoBehaviour
 
         return SuperRotationPosition;
     }
+    public List<int[]> getTspinCheckPosition(int dr){
+        List<int[]> result = new List<int[]>();
+        int[] pa;
+        int[] pb;
+        int[] pc;
+        int[] pd;
+            //{0, 1}, {2, 1}, {2, 3}, {0, 3}
+    //{2, 1}, {2, 3}, {0, 3}, {0, 1}
+    //{2, 3}, {0, 3}, {0, 1}, {2, 1}
+    //{0, 3}, {0, 1}, {2, 1}, {2, 3}
+
+        if(dr == 0){
+            pa = new int[2]{0, 1};
+            pb = new int[2]{2, 1};
+            pc = new int[2]{2, 3};
+            pd = new int[2]{0, 3};
+        }
+        else if(dr == 1){
+            pa = new int[2]{2, 1};
+            pb = new int[2]{2, 3};
+            pc = new int[2]{0, 3};
+            pd = new int[2]{0, 1};
+        }
+        else if(dr == 2){
+            pa = new int[2]{2, 3};
+            pb = new int[2]{0, 3};
+            pc = new int[2]{0, 1};
+            pd = new int[2]{2, 1};
+        }
+        else{
+            pa = new int[2]{0, 3};
+            pb = new int[2]{0, 1};
+            pc = new int[2]{2, 1};
+            pd = new int[2]{2, 3};
+        }
+
+        result.Add(pa);
+        result.Add(pb);
+        result.Add(pc);
+        result.Add(pd);
+
+        return result;
+    }
+
     public TettrisMinoType getHoldMinoType(){
         var temp = type;
         return temp;

@@ -56,11 +56,21 @@ public class Manager : MonoBehaviour
     [SerializeField]
     private List<Mino> holdMinos = new List<Mino>();
 
+    //Tspin
+    public enum TspinType{
+        None,
+        TspinMini,
+        Tspin,
+    }
+
+    private TspinType tspinType = TspinType.None;
     //UI
     [SerializeField]
     private HoldPanel holdPanel;
     [SerializeField]
     private NextPanels nextPanels;
+    [SerializeField]
+    private TspinPanel tspinPanel;
 
     void Update(){
         deltaTime = Time.deltaTime;
@@ -208,12 +218,17 @@ public class Manager : MonoBehaviour
     private void Fall(){
         tettrisMino.Fall();
         FallPosition = tettrisMino.getFallPosition();
+        tspinType = TspinType.None;
     }
 
     private void LockDown(){
         field.addMinos(tettrisMino.LockDown());
         ghostTettrisMino.LockDown();
-        var rowCount = field.deleteLines();
+        var lineCount = field.deleteLines();
+        if(tspinPanel != null){
+            tspinPanel.show(tspinType, lineCount);
+            Debug.Log("?");
+        }
         canHoldFlag = true;
     }
 
@@ -225,18 +240,99 @@ public class Manager : MonoBehaviour
             tettrisMino.Move(dx, dy);
         }
         FallPosition = tettrisMino.getFallPosition();
+        tspinType = TspinType.None;
     }
 
     private void SuperRotation(int dr){
+        int pattern = 0;
+        int positionXID = 0;
+        int positionYID = 0;
+        int dir = 0;
+        
         for(int i=0; i<5; i++){
             List<int[]> temp = tettrisMino.getSuperRotationPosition(dr, i);
             bool flag = field.checkPosition(temp);
             if(flag){
                 tettrisMino.SuperRotation(dr, i);
+                if(tettrisMino.Type == TettrisMinoType.T){
+                    pattern = i;
+                    positionXID = tettrisMino.PositionXID;
+                    positionYID = tettrisMino.PositionYID;
+                    dir = tettrisMino.Dir;
+                }
                 break;
             }
         }
         FallPosition = tettrisMino.getFallPosition();
+        if(tettrisMino.Type == TettrisMinoType.T && pattern > 0){
+            tspinType = checkTspin(positionXID, positionYID, dir, pattern);
+        }
+        else{
+            tspinType = TspinType.None;
+        }
+    }
+    private TspinType checkTspin(int px, int py, int dir, int pattern){
+        TspinType resultType = TspinType.None;
+        var temp = tettrisMino.getTspinCheckPosition(dir);
+        int[] pa = new int[2]{temp[0][0] + px, temp[0][1] + py};
+        int[] pb = new int[2]{temp[1][0] + px, temp[1][1] + py};
+        int[] pc = new int[2]{temp[2][0] + px, temp[2][1] + py};
+        int[] pd = new int[2]{temp[3][0] + px, temp[3][1] + py};
+        int count = 0;
+        bool tspinMiniFlag = false;
+
+        if((0 < pa[0] && pa[0] <= Field.XSIZE) && (0 < pa[1] && pa[1] <= Field.YSIZE)){
+            if(field.checkPosition(new List<int[]>{pa})){
+                tspinMiniFlag = true;
+            }
+            else{
+                count += 1;
+            }
+        }
+        else{
+            //壁か床
+            count += 1;
+        }
+        if((0 < pb[0] && pb[0] <= Field.XSIZE) && (0 < pb[1] && pb[1] <= Field.YSIZE)){
+            if(field.checkPosition(new List<int[]>{pb})){
+                tspinMiniFlag = true;
+            }
+            else{
+                count += 1;
+            }
+        }
+        else{
+            //壁か床
+            count += 1;
+        }
+        //背面
+        if((0 < pc[0] && pc[0] <= Field.XSIZE) && (0 < pc[1] && pc[1] <= Field.YSIZE)){
+            if(!field.checkPosition(new List<int[]>{pc})){
+                count += 1;
+            }
+        }
+        else{
+            //壁か床
+            count += 1;
+        }
+        if((0 < pd[0] && pd[0] <= Field.XSIZE) && (0 < pd[1] && pd[1] <= Field.YSIZE)){
+            if(!field.checkPosition(new List<int[]>{pd})){
+                count += 1;
+            }
+        }
+        else{
+            //壁か床
+            count += 1;
+        }
+
+        if(count >= 3){
+            resultType = TspinType.Tspin;
+            if(tspinMiniFlag && pattern != 4){
+                resultType = TspinType.TspinMini;
+            }
+        }
+
+        return resultType;
     }
     private void setHardDropPosition(){
         ghostTettrisMino.set(tettrisMino.PositionXID, tettrisMino.PositionYID, tettrisMino.Dir);
@@ -282,6 +378,7 @@ public class Manager : MonoBehaviour
             Debug.Log("HoldPanelが設定されていません。");
         }
         canHoldFlag = false;
+        tspinType = TspinType.None;
     }
     private void setFallInterval(int count){
         int temp = 0;

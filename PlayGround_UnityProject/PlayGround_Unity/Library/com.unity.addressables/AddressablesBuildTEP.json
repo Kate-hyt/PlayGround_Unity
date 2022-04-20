@@ -1,9 +1,9 @@
 {
-"Date": "2022/04/12 17:16:01",
+"Date": "2022/04/14 19:08:45",
 "UnityVersion": "2021.2.7f1",
 "com.unity.scriptablebuildpipeline": "1.19.5",
 "com.unity.addressables": "1.19.15",
 "traceEvents": [
-{"name": "Building Use Asset Database (fastest)", "ph": "X", "dur": 1525.8, "tid": 1, "ts": 7192, "pid": 1}
+{"name": "Building Use Asset Database (fastest)", "ph": "X", "dur": 1336.3, "tid": 1, "ts": 9892, "pid": 1}
 ]
 }

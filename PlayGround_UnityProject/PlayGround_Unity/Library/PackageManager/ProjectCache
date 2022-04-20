@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637769724782257308
+      ticks: 637853512201235991
     m_Hash: 3163970496
   m_LockFileStatus:
     m_FilePath: C:/home/PlayGround_Unity/PlayGround_UnityProject/PlayGround_Unity/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637769724782369659
+      ticks: 637853512201295978
     m_Hash: 319738470
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
@@ -144,12 +144,18 @@ m_ResolvedPackages:
     - 1.19.13
     - 1.19.14
     - 1.19.15
+    - 1.19.17
+    - 1.19.18
+    - 1.19.19
     compatible:
     - 1.19.11
     - 1.19.13
     - 1.19.14
     - 1.19.15
-    verified: 1.19.15
+    - 1.19.17
+    - 1.19.18
+    - 1.19.19
+    verified: 1.19.19
   dependencies:
   - name: com.unity.scriptablebuildpipeline
     version: 1.19.5

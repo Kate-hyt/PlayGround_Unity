@@ -331,6 +331,7 @@
 -r:"E:/Unity/2021.2.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/Unity.Addressables.ref.dll"
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/Unity.ResourceManager.ref.dll"
+-r:"Library/Bee/artifacts/500b0aEDbg.dag/Unity.TextMeshPro.ref.dll"
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/Tettris/Scripts/Controller.cs"
@@ -342,6 +343,7 @@
 "Assets/Tettris/Scripts/Mino.cs"
 "Assets/Tettris/Scripts/NextPanels.cs"
 "Assets/Tettris/Scripts/TettrisMino.cs"
+"Assets/Tettris/Scripts/TspinPanel.cs"
 -langversion:9.0
 
 /deterministic
